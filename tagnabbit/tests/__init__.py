@@ -1,3 +1,3 @@
 if __name__ == '__main__':
-    import nose
-    nose.main()
+    from . import run
+    run.run()

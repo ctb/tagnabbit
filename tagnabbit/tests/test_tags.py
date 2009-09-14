@@ -28,3 +28,8 @@ class Test_FacultybyTags(object):
     def test_d(self):
         assert self.f not in tags.get_faculty_by_tags(['d'])
         assert self.g not in tags.get_faculty_by_tags(['d'])
+
+    def test_all(self):
+        x = tags.get_all_faculty()
+        assert self.f in x
+        assert self.g in x
