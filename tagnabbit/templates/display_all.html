@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% import 'forms.html' as forms %}
+
+{% block content %}
+
+<p align='center'>
+<a href='#faculty'>Faculty</a> | <a href='#projects'>Projects</a>
+<p>
+<a name='faculty' />
+<h1>Faculty</h1>
+
+{% if faculty_list %}
+<ul>
+{% for faculty in faculty_list %}
+ <li> <a href=''>{{  faculty.first_name }} {{ faculty.last_name }}</a>
+{% endfor %}
+</ul>
+{% else %}
+No faculty match tags {{ taglist }}
+{% endif %}
+
+<hr>
+
+<a name='projects' />
+<h1>Projects</h1>
+</a>
+
+{% if project_list %}
+<ul>
+{% for projects in project_list %}
+ <li> <a href=''>{{  faculty.first_name }} {{ faculty.last_name }}</a>
+{% endfor %}
+</ul>
+{% else %}
+No projects match tags {{ taglist }}
+{% endif %}
+
+<p align='center'>
+
+<a href='#faculty'>Faculty</a> | <a href='#projects'>Projects</a>
+
+{% endblock %}
