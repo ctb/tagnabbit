@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% import 'forms.html' as forms %}
+
+{% block content %}
+<h3>Add faculty:</h3>
+<p>
+<form method='POST'>
+First name: {{ forms.input('first_name', size=30) }}<p>
+Last name: {{ forms.input('last_name', size=30) }}<p>
+Lab web page: {{ forms.input('url', size=30) }}
+<p>
+BEACON research blurb:
+<br>
+{{ forms.textarea('blurb', rows=10, cols=40) }}
+<p align='center'>
+{{ forms.submit('add') }}
+
+</form>
+</center>
+{% endblock %}

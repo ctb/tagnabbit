@@ -35,7 +35,7 @@ env = jinja2.Environment(loader=loader)
 ###
 
 class TopDirectory(Directory):
-    _q_exports = ['', 'css', 'img', 'example', 'faculty']
+    _q_exports = ['', 'css', 'img', 'example', 'faculty', 'add_faculty']
     css = StaticDirectory(os.path.join(templatesdir, 'css'), use_cache=True)
     img = StaticDirectory(os.path.join(templatesdir, 'img'), use_cache=True)
 
@@ -60,6 +60,24 @@ class TopDirectory(Directory):
             faculty_list = tags.get_all_faculty()
 
         template = env.get_template('faculty.html')
+        return template.render(locals())
+
+    def add_faculty(self):
+        request = quixote.get_request()
+        form = request.form
+
+        first_name = form.get('first_name')
+        last_name = form.get('last_name')
+        url = form.get('url', 'some url')
+        blurb = form.get('blurb', 'some blurb')
+        taglist = form.get('taglist', 'a,b,c')
+
+        if first_name and last_name:
+            f = objects.Faculty(first_name, last_name, blurb, url)
+            tags.add_faculty(f, taglist.split(','))
+            return request.response.redirect(request.get_url(1))
+        
+        template = env.get_template('add_faculty.html')
         return template.render(locals())
 
 def create_publisher():
