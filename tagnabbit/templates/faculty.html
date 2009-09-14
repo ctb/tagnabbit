@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% import 'forms.html' as forms %}
+
+{% block content %}
+<p>
+<h1>Faculty</h1>
+
+<ul>
+{% for faculty in faculty_list %}
+ <li> {{  faculty.first_name }} {{ faculty.last_name }}
+{% endfor %}
+</ul>
+{% endblock %}

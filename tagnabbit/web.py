@@ -12,6 +12,17 @@ from quixote.util import StaticDirectory
 
 import jinja2
 
+###
+
+from . import tags, objects
+
+f = objects.Faculty('foo', 'bar', '', '')
+g = objects.Faculty('zip', 'zap', '', '')
+
+tags.add_faculty(f, ['a', 'b'])
+tags.add_faculty(g, ['a', 'c'])
+
+
 ### set up jinja templates
 
 thisdir = os.path.dirname(__file__)
@@ -24,7 +35,7 @@ env = jinja2.Environment(loader=loader)
 ###
 
 class TopDirectory(Directory):
-    _q_exports = ['', 'css', 'img', 'example']
+    _q_exports = ['', 'css', 'img', 'example', 'faculty']
     css = StaticDirectory(os.path.join(templatesdir, 'css'), use_cache=True)
     img = StaticDirectory(os.path.join(templatesdir, 'img'), use_cache=True)
 
@@ -36,6 +47,19 @@ class TopDirectory(Directory):
 
     def example(self):
         template = env.get_template('example.html')
+        return template.render(locals())
+
+    def faculty(self):
+        request = quixote.get_request()
+        taglist = request.form.get('tags', None)
+
+        if taglist:
+            taglist = taglist.split(',')
+            faculty_list = tags.get_faculty_by_tags(taglist)
+        else:
+            faculty_list = tags.get_all_faculty()
+
+        template = env.get_template('faculty.html')
         return template.render(locals())
 
 def create_publisher():
