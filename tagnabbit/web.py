@@ -1,17 +1,33 @@
+import os.path
 from wsgiref.simple_server import WSGIServer, WSGIRequestHandler
 
 import pkg_resources
 pkg_resources.require('quixote >= 2.6')
+pkg_resources.require('jinja2')
 
 import quixote
 from quixote.directory import Directory
 from quixote.publish import Publisher
 
+import jinja2
+
+### set up jinja templates
+
+thisdir = os.path.dirname(__file__)
+templatesdir = os.path.join(thisdir, 'templates')
+templatesdir = os.path.abspath(templatesdir)
+
+loader = jinja2.FileSystemLoader(templatesdir)
+env = jinja2.Environment(loader=loader)
+
+###
+
 class TopDirectory(Directory):
     _q_exports = ['']
 
     def _q_index(self):
-        return "hello, world"
+        template = env.get_template('index.html')
+        return template.render(locals())
 
 def create_publisher():
     # sets global Quixote publisher
