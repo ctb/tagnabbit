@@ -5,6 +5,14 @@
 
 <h2>Dr. {{ faculty.first_name }} {{ faculty.last_name }}</h2>
 
+Tags:
+{% for t in taglist %}
+<a href='display_by_tag?tags={{ t|e }}'>{{ t }}</a>
+{% endfor %}
+
+<p>
+
+<b>Research blurb:</b>
 <blockquote>
 {{ faculty.blurb }}
 </blockquote>
@@ -16,7 +24,7 @@
 <hr>
 
 <div align='center'>
-<a href='f?id={{ id-1 }}'>previous</a> | <a href='f?id={{ id+1 }}'>next</a>
+<a href='f?id={{ prev_id }}'>previous</a> | <a href='f?id={{ next_id }}'>next</a>
 </div>
 
 {% endblock %}

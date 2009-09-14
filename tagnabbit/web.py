@@ -19,8 +19,8 @@ from . import tags, objects
 f = objects.Faculty('foo', 'bar', '', '')
 g = objects.Faculty('zip', 'zap', '', '')
 
-tags.add_faculty(f, ['a', 'b'])
-tags.add_faculty(g, ['a', 'c'])
+tags.add_faculty(f, ['tagA', 'tagB'])
+tags.add_faculty(g, ['tagA', 'tagC'])
 
 
 ### set up jinja templates
@@ -71,7 +71,7 @@ class TopDirectory(Directory):
         last_name = form.get('last_name')
         url = form.get('url', 'some url')
         blurb = form.get('blurb', 'some blurb')
-        taglist = form.get('taglist', 'a,b,c')
+        taglist = form.get('taglist', 'tagA,tagB')
 
         if first_name and last_name:
             f = objects.Faculty(first_name, last_name, blurb, url)
@@ -85,7 +85,7 @@ class TopDirectory(Directory):
         request = quixote.get_request()
         form = request.form
 
-        taglist = form.get('tags', 'a')
+        taglist = form.get('tags', ['tagA'])
         taglist = taglist.split(',')
         taglist = [ x.strip() for x in taglist ]
 
@@ -104,6 +104,16 @@ class TopDirectory(Directory):
 
         faculty_list = tags.get_all_faculty()
         faculty = faculty_list[id]
+
+        prev_id = id - 1
+        if prev_id < 0:
+            prev_id = len(faculty_list) - 1
+
+        next_id = id + 1
+        while next_id >= len(faculty_list):
+            next_id %= len(faculty_list)
+
+        taglist = tags.get_tags_for_faculty(faculty)
 
         template = env.get_template('single_faculty.html')
         return template.render(locals())

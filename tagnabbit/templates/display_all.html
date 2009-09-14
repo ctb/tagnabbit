@@ -6,13 +6,15 @@
 <p align='center'>
 <a href='#faculty'>Faculty</a> | <a href='#projects'>Projects</a>
 <p>
+Faculty and projects matching {{ taglist }}
+<p>
 <a name='faculty' />
 <h1>Faculty</h1>
 
 {% if faculty_list %}
 <ul>
 {% for faculty in faculty_list %}
- <li> <a href=''>{{  faculty.first_name }} {{ faculty.last_name }}</a>
+ <li> <a href='f?id={{ faculty.id }}'>{{  faculty.first_name }} {{ faculty.last_name }}</a>
 {% endfor %}
 </ul>
 {% else %}

@@ -13,6 +13,7 @@ def add_faculty(faculty, taglist):
         x.append(faculty)
         faculty_by_tags[tag] = x
 
+    faculty.id = len(all_faculty)
     all_faculty.append(faculty)
 
 def get_faculty_by_tags(taglist):
@@ -30,3 +31,10 @@ def get_faculty_by_tags(taglist):
 
 def get_all_faculty():
     return list(all_faculty)
+
+def get_tags_for_faculty(f):
+    x = []
+    for k, v in faculty_by_tags.items():
+        if f in v:
+            x.append(k)
+    return x
