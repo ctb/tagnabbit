@@ -8,6 +8,7 @@ pkg_resources.require('jinja2')
 import quixote
 from quixote.directory import Directory
 from quixote.publish import Publisher
+from quixote.util import StaticDirectory
 
 import jinja2
 
@@ -23,12 +24,18 @@ env = jinja2.Environment(loader=loader)
 ###
 
 class TopDirectory(Directory):
-    _q_exports = ['']
+    _q_exports = ['', 'css', 'img', 'example']
+    css = StaticDirectory(os.path.join(templatesdir, 'css'), use_cache=True)
+    img = StaticDirectory(os.path.join(templatesdir, 'img'), use_cache=True)
 
     def _q_index(self):
         content = "hello, world"
         
         template = env.get_template('index.html')
+        return template.render(locals())
+
+    def example(self):
+        template = env.get_template('example.html')
         return template.render(locals())
 
 def create_publisher():
