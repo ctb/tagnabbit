@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import 'forms.html' as forms %}
+
+{% block content %}
+
+<h2>Dr. {{ faculty.first_name }} {{ faculty.last_name }}</h2>
+
+<blockquote>
+{{ faculty.blurb }}
+</blockquote>
+
+<p>
+
+<a href='{{ faculty.url }}'>Web page</a>
+
+<hr>
+
+<div align='center'>
+<a href='f?id={{ id-1 }}'>previous</a> | <a href='f?id={{ id+1 }}'>next</a>
+</div>
+
+{% endblock %}
