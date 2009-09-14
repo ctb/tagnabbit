@@ -26,6 +26,8 @@ class TopDirectory(Directory):
     _q_exports = ['']
 
     def _q_index(self):
+        content = "hello, world"
+        
         template = env.get_template('index.html')
         return template.render(locals())
 
