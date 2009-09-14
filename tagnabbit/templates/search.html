@@ -10,5 +10,10 @@
 <p>
 {{ forms.submit('search') }}
 </form>
+<p>
+<h3>Tags:</h3>
+{% for tag in taglist %}
+<a href='display_by_tag?tags={{ tag|e }}'>{{ tag }}</a>
+{% endfor %}
 </center>
 {% endblock %}

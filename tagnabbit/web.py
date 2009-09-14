@@ -14,14 +14,17 @@ import jinja2
 
 ###
 
-from . import tags, objects
+from . import tags, objects, db
 
-f = objects.Faculty('foo', 'bar', '', '')
-g = objects.Faculty('zip', 'zap', '', '')
-
-tags.add_faculty(f, ['tagA', 'tagB'])
-tags.add_faculty(g, ['tagA', 'tagC'])
-
+all_f, all_p = db.load('foo.sqlite')
+if not (all_f or all_p):
+    pass
+else:
+    print 'LOADING'
+    for f in all_f:
+        tags.add_faculty(f, f.tags)
+    for p in all_p:
+        tags.add_project(p, p.tags)
 
 ### set up jinja templates
 
@@ -41,7 +44,7 @@ class TopDirectory(Directory):
     img = StaticDirectory(os.path.join(templatesdir, 'img'), use_cache=True)
 
     def _q_index(self):
-        content = "hello, world"
+        taglist = tags.get_all_tags()
         
         template = env.get_template('search.html')
         return template.render(locals())
@@ -71,11 +74,13 @@ class TopDirectory(Directory):
         last_name = form.get('last_name')
         url = form.get('url', 'some url')
         blurb = form.get('blurb', 'some blurb')
-        taglist = form.get('taglist', 'tagA,tagB')
+        taglist = form.get('tags', 'tagA,tagB')
 
         if first_name and last_name:
             f = objects.Faculty(first_name, last_name, blurb, url)
-            tags.add_faculty(f, taglist.split(','))
+            f.tags = [ t.strip() for t in taglist.split(',') ]
+            tags.add_faculty(f, f.tags)
+            db.add_faculty(f)
             return request.response.redirect(request.get_url(1))
         
         template = env.get_template('add_faculty.html')

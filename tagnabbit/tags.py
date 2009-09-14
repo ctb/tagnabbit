@@ -1,6 +1,9 @@
 faculty_by_tags = {}
 all_faculty = []
 
+projects_by_tags = {}
+all_projects = []
+
 def reset():
     global faculty_by_tags, all_faculty
     faculty_by_tags = {}
@@ -31,6 +34,12 @@ def get_faculty_by_tags(taglist):
 
 def get_all_faculty():
     return list(all_faculty)
+
+def get_all_tags():
+    x = list(faculty_by_tags)
+    y = list(projects_by_tags)
+    x.extend(y)
+    return x
 
 def get_tags_for_faculty(f):
     x = []

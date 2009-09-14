@@ -7,7 +7,7 @@
 
 <ul>
 {% for faculty in faculty_list %}
- <li> {{  faculty.first_name }} {{ faculty.last_name }}
+ <li> <a href='f?id={{ faculty.id }}'>{{ faculty.first_name }} {{ faculty.last_name }}</a>
 {% endfor %}
 </ul>
 {% endblock %}
