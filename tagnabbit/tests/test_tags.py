@@ -10,6 +10,9 @@ class Test_FacultybyTags(object):
         tags.add_faculty(self.f, ['a', 'b'])
         tags.add_faculty(self.g, ['a', 'c'])
 
+    def teardown(self):
+        tags.reset
+
     def test_a(self):
         assert self.f in tags.get_faculty_by_tags(['a'])
         assert self.g in tags.get_faculty_by_tags(['a'])
