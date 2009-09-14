@@ -31,7 +31,7 @@ class TopDirectory(Directory):
     def _q_index(self):
         content = "hello, world"
         
-        template = env.get_template('index.html')
+        template = env.get_template('search.html')
         return template.render(locals())
 
     def example(self):

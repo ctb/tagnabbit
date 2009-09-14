@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% import 'forms.html' as forms %}
+
+{% block content %}
+<center>
+<h3>Keyword search:</h3>
+<p>
+<form>
+{{ forms.input('q', size=30) }}
+<p>
+{{ forms.submit('search') }}
+</form>
+</center>
+{% endblock %}
