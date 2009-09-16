@@ -1,3 +1,9 @@
+t = """
+Thrust Group 1
+Thrust Group 2
+Thrust Group 3
+"""
+
 x = """
 Aggregation
 Behavior
@@ -43,7 +49,7 @@ Industrial Outreach
 ###
 
 print '<table width="100%">'
-for target in x, y, z:
+for target in x, y, z, t:
 
     lines = target.strip().splitlines()
 
