@@ -3,7 +3,11 @@
 {%- endmacro %}
 
 {% macro submit(value) -%}
-    <input type='submit' value='{{ value|e }}'>
+    <input type='submit' name='submit' value='{{ value|e }}'>
+{%- endmacro %}
+
+{% macro hidden(name, value='') -%}
+    <input type='hidden' name='{{ name|e }}', value='{{ value|e }}'>
 {%- endmacro %}
 
 {%- macro textarea(name, value='', rows=10, cols=40, id='') -%}

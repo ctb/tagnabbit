@@ -25,6 +25,7 @@ def commit():
     conn.commit()
 
 def add_faculty(f):
+    print 'ADDING FACULTY', f.id, f.last_name
     key = str(f.id)
     faculty_db[key] = f
     commit()

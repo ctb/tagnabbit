@@ -70,19 +70,45 @@ class TopDirectory(Directory):
         request = quixote.get_request()
         form = request.form
 
-        first_name = form.get('first_name')
-        last_name = form.get('last_name')
-        url = form.get('url', 'some url')
-        blurb = form.get('blurb', 'some blurb')
-        taglist = form.get('tags', 'tagA,tagB')
+        id = form.get('id', '')
+        first_name = last_name = url = blurb = taglist = ''
 
-        if first_name and last_name:
-            f = objects.Faculty(first_name, last_name, blurb, url)
-            f.tags = [ t.strip() for t in taglist.split(',') ]
-            tags.add_faculty(f, f.tags)
+        f = None
+        if id:
+            id = int(id)
+            faculty_list = tags.get_all_faculty()
+            f = faculty_list[id]
+
+            first_name = f.first_name
+            last_name = f.last_name
+            url = f.url
+            blurb = f.blurb
+            taglist = ", ".join(f.tags)
+        
+        first_name = form.get('first_name', first_name)
+        last_name = form.get('last_name', last_name)
+        url = form.get('url', url)
+        blurb = form.get('blurb', blurb)
+        taglist = form.get('tags', taglist)
+        taglist = [ t.strip() for t in taglist.split(',') ]
+
+        if form.get('submit') == 'add' and first_name and last_name:
+            if f:
+                f.first_name = first_name
+                f.last_name = last_name
+                f.url = url
+                f.blurb = blurb
+                f.tags = taglist
+                tags.update_faculty(f, taglist)
+            else:
+                f = objects.Faculty(first_name, last_name, blurb, url)
+                f.tags = taglist
+                tags.add_faculty(f, f.tags)
+
             db.add_faculty(f)
             return request.response.redirect(request.get_url(1))
-        
+
+        taglist = ", ".join(taglist)
         template = env.get_template('add_faculty.html')
         return template.render(locals())
 
