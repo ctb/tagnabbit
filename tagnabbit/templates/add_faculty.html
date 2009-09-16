@@ -8,7 +8,7 @@
 <script type="text/javascript">
   (function($){
   $(document).ready(function(){
-  $("#from").tagTo("#to");
+  $("#tagsource").tagTo("#tags");
   });    
   })(jQuery);
 </script>
@@ -22,23 +22,77 @@
 First name: {{ forms.input('first_name', size=30) }}<p>
 Last name: {{ forms.input('last_name', size=30) }}<p>
 Lab web page: {{ forms.input('url', size=30) }}<p>
-Tags (comma-separated): {{ forms.input('tags', size=30) }}
-<p>
 BEACON research blurb:
 <br>
 {{ forms.textarea('blurb', rows=10, cols=40) }}
 <p align='center'>
+<p>
+
+Tags (comma-separated; click on tags below to add/remove):<br>
+{{ forms.textarea('tags', id='tags', rows=5, cols=40) }}
+
+<p>
+
 {{ forms.submit('add') }}
 
-<div>
-    <input type="text" id="to" name="to">
-</div>
+<p>
+<h4>Tags:</h4>
+<br>
+<font size="-1">
+<div id="tagsource">
 
-<strong>Tags:</strong>
-<div id="from">
-    <a href="#">Tag1</a> <a href="#">Tag2</a> <a href="#">Tag3</a> <a href="#">Tag4</a>
+<table width="100%">
+<tr>
+<td><a href="#">Aggregation</a></td> <td><a href="#">Fitness Landscapes</a></td> <td><a href="#">Multi-level selection</a></td> 
+</tr>
+<tr>
+<td><a href="#">Behavior</a></td> <td><a href="#">Gene Networks</a></td> <td><a href="#">Navigation</a></td> 
+</tr>
+<tr>
+<td><a href="#">Communication</a></td> <td><a href="#">Genomics</a></td> <td><a href="#">Neural Networks</a></td> 
+</tr>
+<tr>
+<td><a href="#">Complexity</a></td> <td><a href="#">Historical Contingency</a></td> <td><a href="#">Phylogeny Reconstruction</a></td> 
+</tr>
+<tr>
+<td><a href="#">Cooperation</a></td> <td><a href="#">Information Theory</a></td> <td><a href="#">Plasticity</a></td> 
+</tr>
+<tr>
+<td><a href="#">Ecology</a></td> <td><a href="#">Intelligence</a></td> <td><a href="#">Recognition</a></td> 
+</tr>
+<tr>
+<td><a href="#">Epidemiology</a></td> <td><a href="#">Memory</a></td> <td><a href="#">Robustness</a></td> 
+</tr>
+<tr>
+<td><a href="#">Evolvability</a></td> <td><a href="#">Metagenomics</a></td> <td><a href="#">Speciation</a></td> 
+</tr>
+<tr>
+<td></td> <td></td> <td></td> 
+</tr>
+<tr><td colspan="3"><hr></td></tr>
+<tr>
+<td><a href="#">Biological Evolution</a></td> <td><a href="#">Computational Evolution</a></td> <td><a href="#">Applied Evolution</a></td> 
+</tr>
+<tr>
+<td></td> <td></td> <td></td> 
+</tr>
+<tr><td colspan="3"><hr></td></tr>
+<tr>
+<td><a href="#">K-12 Education</a></td> <td><a href="#">Graduate Education</a></td> <td><a href="#">Public Outreach</a></td> 
+</tr>
+<tr>
+<td><a href="#">Undergraduate Education</a></td> <td><a href="#">Postdoc Education</a></td> <td><a href="#">Industrial Outreach</a></td> 
+</tr>
+<tr>
+<td></td> <td></td> <td></td> 
+</tr>
+</table>
+
+
 </div>
+</font>
 
 </form>
 </center>
+<p>
 {% endblock %}

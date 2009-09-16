@@ -16,7 +16,7 @@ jQuery.arrRemove = function(arr, rm){
 
 jQuery.fn.tagTo = function(target, seperator, tclass){
     if ("string" == typeof target) target = jQuery(target);
-    seperator = arguments[1] || ",";
+    seperator = arguments[1] || ", ";
     tclass = arguments[2] || "selected";
 
     var tagname = target.get(0).nodeName.toLowerCase();

@@ -234,3 +234,13 @@ A:hover {
   line-height: 18px;
   color: #333333;
 }
+
+table {
+border: 1px;
+border-style:solid;
+}
+
+td {
+text-align: center; 
+padding: 3px;
+}
