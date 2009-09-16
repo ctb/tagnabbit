@@ -132,7 +132,7 @@ def create_publisher():
     app.publisher.is_thread_safe = True
     return app
 
-def run(port=8000):
+def run(port=8012):
     server = WSGIServer(('', port), WSGIRequestHandler)
     app = create_publisher()
     server.set_app(app)
