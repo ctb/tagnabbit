@@ -19,17 +19,18 @@
 <h3>Add faculty:</h3>
 <p>
 <form method='POST'>
-First name: {{ forms.input('first_name', size=30) }}<p>
-Last name: {{ forms.input('last_name', size=30) }}<p>
-Lab web page: {{ forms.input('url', size=30) }}<p>
+{{ forms.hidden('id', value=id) }}
+First name: {{ forms.input('first_name', value=first_name, size=30) }}<p>
+Last name: {{ forms.input('last_name', value=last_name,size=30) }}<p>
+Lab web page: {{ forms.input('url', value=url, size=30) }}<p>
 BEACON research blurb:
 <br>
-{{ forms.textarea('blurb', rows=10, cols=40) }}
+{{ forms.textarea('blurb', rows=10, cols=40, value=blurb) }}
 <p align='center'>
 <p>
 
 Tags (comma-separated; click on tags below to add/remove):<br>
-{{ forms.textarea('tags', id='tags', rows=5, cols=40) }}
+{{ forms.textarea('tags', id='tags', rows=5, cols=40, value=taglist) }}
 
 <p>
 

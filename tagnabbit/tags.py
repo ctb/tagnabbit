@@ -19,6 +19,20 @@ def add_faculty(faculty, taglist):
     faculty.id = len(all_faculty)
     all_faculty.append(faculty)
 
+def update_faculty(faculty, taglist):
+    # clean out of tags
+    for k, v in faculty_by_tags.items():
+        if faculty in v:
+            v.remove(faculty)
+
+    # add back in
+    for tag in taglist:
+        x = faculty_by_tags.get(tag, [])
+        x.append(faculty)
+        faculty_by_tags[tag] = x
+        
+    all_faculty[faculty.id] = faculty
+
 def get_faculty_by_tags(taglist):
     if not taglist:
         return
