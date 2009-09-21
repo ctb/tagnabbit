@@ -3,6 +3,7 @@
 
 {% block content %}
 <center>
+<!--
 <h3>Keyword search:</h3>
 <p>
 <form>
@@ -10,8 +11,11 @@
 <p>
 {{ forms.submit('search') }}
 </form>
+-->
 <p>
-<h3>Tags:</h3>
+<h2>Welcome!</h2>
+Select a tag to see faculty and projects with that tag.
+<p>
 {% for tag in taglist %}
 <a href='display_by_tag?tags={{ tag|e }}'>{{ tag }}</a> |
 {% endfor %}

@@ -1,3 +1,5 @@
+# -*- coding: iso-8859-1 -*-
+
 ''' Dbm based on sqlite -- Needed to support shelves
 
 Issues:

@@ -27,10 +27,10 @@ No faculty match tags {{ taglist }}
 <h1>Projects</h1>
 </a>
 
-{% if project_list %}
+{% if projects_list %}
 <ul>
-{% for projects in project_list %}
- <li> <a href=''>{{  faculty.first_name }} {{ faculty.last_name }}</a>
+{% for project in projects_list %}
+ <li> <a href='p?id={{ project.id }}'>{{  project.title }}</a>
 {% endfor %}
 </ul>
 {% else %}

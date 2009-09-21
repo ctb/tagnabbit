@@ -139,6 +139,10 @@ A:hover {
   color: #333333;
 }
 
+.blurb {
+  white-space: pre-wrap;
+}
+
 #content h3 {
   margin-top:5px; margin-bottom: 10px;
   font-family: verdana, arial, sans-serif;
@@ -244,3 +248,4 @@ td {
 text-align: center; 
 padding: 3px;
 }
+
