@@ -15,3 +15,15 @@ class Faculty(object):
 
     def __hash__(self):
         return hash(self.hashset)
+
+class Project(object):
+    def __init__(self, title, blurb, url):
+        self.id = None
+        self.title = title
+        self.blurb = blurb
+        self.url = url
+
+        self.hashset = self.title
+
+    def __hash__(self):
+        return hash(self.hashset)

@@ -69,11 +69,18 @@ class TopDirectory(Directory):
         template = env.get_template('faculty.html')
         return render_jinja2(template, locals())
 
-    def add_project(self):
-        return "not yet implemented"
-
     def projects(self):
-        return "not yet implemented"
+        request = quixote.get_request()
+        taglist = request.form.get('tags', None)
+
+        if taglist:
+            taglist = taglist.split(',')
+            project_list = tags.get_projects_by_tags(taglist)
+        else:
+            project_list = tags.get_all_projects()
+
+        template = env.get_template('projects.html')
+        return render_jinja2(template, locals())
 
     def add_faculty(self):
         request = quixote.get_request()
@@ -137,16 +144,71 @@ class TopDirectory(Directory):
         template = env.get_template('add_faculty.html')
         return render_jinja2(template, locals())
 
+    def add_project(self):
+        request = quixote.get_request()
+        form = request.form
+
+        already_exists = False
+        submit_button_name = 'submit new project information'
+        id = form.get('id', '')
+        title = url = blurb = taglist = ''
+
+        p = None
+        if id:
+            already_exists = True
+            submit_button_name = 'update project information'
+
+            id = int(id)
+            p = tags.get_project(id)
+
+            title = p.title
+            url = p.url
+            blurb = p.blurb
+            taglist = ", ".join(p.tags)
+        
+        title = form.get('title', title)
+        if isinstance(title, str):
+            title = title.decode('8859')
+        
+        url = form.get('url', url)
+        if isinstance(url, str):
+            url = url.decode('8859')
+        
+        blurb = form.get('blurb', blurb)
+        if isinstance(blurb, str):
+            blurb = blurb.decode('8859')
+        
+        taglist = form.get('tags', taglist)
+        taglist = [ t.strip() for t in taglist.split(',') ]
+
+        if form.get('submit') == submit_button_name and title:
+            if p:
+                p.title = title
+                p.url = url
+                p.blurb = blurb
+                p.tags = taglist
+            else:
+                p = objects.Project(title, blurb, url)
+                p.tags = taglist
+
+            tags.add_or_update_project(p)
+            
+            return request.response.redirect(request.get_url(1))
+
+        taglist = ", ".join(taglist)
+        template = env.get_template('add_project.html')
+        return render_jinja2(template, locals())
+
     def display_by_tag(self):
         request = quixote.get_request()
         form = request.form
 
-        taglist = form.get('tags', ['tagA'])
+        taglist = form.get('tags')
         taglist = taglist.split(',')
         taglist = [ x.strip() for x in taglist ]
 
         faculty_list = tags.get_faculty_by_tags(taglist)
-        project_list = []
+        projects_list = tags.get_project_by_tags(taglist)
 
         template = env.get_template('display_all.html')
         return render_jinja2(template, locals())
@@ -172,6 +234,29 @@ class TopDirectory(Directory):
         taglist = tags.get_tags_for_faculty(faculty)
 
         template = env.get_template('single_faculty.html')
+        return render_jinja2(template, locals())
+
+    def p(self):
+        request = quixote.get_request()
+        form = request.form
+
+        id = form['id']
+        id = int(id)
+
+        project = tags.get_project(id)
+        project_list = tags.get_all_projects()
+
+        prev_id = id - 1
+        if prev_id < 0:
+            prev_id = len(project_list) - 1
+
+        next_id = id + 1
+        while next_id >= len(project_list):
+            next_id %= len(project_list)
+
+        taglist = tags.get_tags_for_project(project)
+
+        template = env.get_template('single_project.html')
         return render_jinja2(template, locals())
 
 def create_publisher():
