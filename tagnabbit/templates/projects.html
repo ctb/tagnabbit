@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% import 'forms.html' as forms %}
+
+{% block content %}
+<p>
+<h1>Projects</h1>
+
+<ul>
+{% for project in project_list %}
+ <li> <a href='p?id={{ project.id }}'>{{ project.title }}</a>
+{% endfor %}
+</ul>
+{% endblock %}

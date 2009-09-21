@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% import 'forms.html' as forms %}
+
+{% block head_js %}
+<script type="text/javascript" src="/css/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="/css/jquery.tagto.js"></script>
+
+<script type="text/javascript">
+  (function($){
+  $(document).ready(function(){
+  $("#tagsource").tagTo("#tags");
+  });    
+  })(jQuery);
+</script>
+
+{% endblock %}
+
+{% block content %}
+<h3>Add project:</h3>
+<p>
+<form method='POST'>
+{{ forms.hidden('id', value=id) }}
+Project title: {{ forms.input('title', value=title, size=30) }}<p>
+Web page, if any: {{ forms.input('url', value=url, size=30) }}<p>
+Project description:
+<br>
+{{ forms.textarea('blurb', rows=10, cols=60, value=blurb) }}
+<p align='center'>
+
+<p>
+
+{{ forms.submit(submit_button_name) }}
+
+<p>
+
+Tags (comma-separated; click on tags below to add/remove):<br>
+{{ forms.textarea('tags', id='tags', rows=5, cols=60, value=taglist) }}
+
+<p>
+
+<p>
+<h4>Tags:</h4>
+<br>
+<font size="-1">
+<div id="tagsource">
+
+<table width="100%">
+<tr>
+<td><a href="#">Aggregation</a></td> <td><a href="#">Fitness Landscapes</a></td> <td><a href="#">Multi-level selection</a></td> 
+</tr>
+<tr>
+<td><a href="#">Behavior</a></td> <td><a href="#">Gene Networks</a></td> <td><a href="#">Navigation</a></td> 
+</tr>
+<tr>
+<td><a href="#">Communication</a></td> <td><a href="#">Genomics</a></td> <td><a href="#">Neural Networks</a></td> 
+</tr>
+<tr>
+<td><a href="#">Complexity</a></td> <td><a href="#">Historical Contingency</a></td> <td><a href="#">Phylogeny Reconstruction</a></td> 
+</tr>
+<tr>
+<td><a href="#">Cooperation</a></td> <td><a href="#">Information Theory</a></td> <td><a href="#">Plasticity</a></td> 
+</tr>
+<tr>
+<td><a href="#">Ecology</a></td> <td><a href="#">Intelligence</a></td> <td><a href="#">Recognition</a></td> 
+</tr>
+<tr>
+<td><a href="#">Epidemiology</a></td> <td><a href="#">Memory</a></td> <td><a href="#">Robustness</a></td> 
+</tr>
+<tr>
+<td><a href="#">Evolvability</a></td> <td><a href="#">Metagenomics</a></td> <td><a href="#">Speciation</a></td> 
+</tr>
+<tr>
+<td></td> <td></td> <td></td> 
+</tr>
+<tr><td colspan="3"><hr></td></tr>
+<tr>
+<td><a href="#">Biological Evolution</a></td> <td><a href="#">Computational Evolution</a></td> <td><a href="#">Applied Evolution</a></td> 
+</tr>
+<tr>
+<td></td> <td></td> <td></td> 
+</tr>
+<tr><td colspan="3"><hr></td></tr>
+<tr>
+<td><a href="#">K-12 Education</a></td> <td><a href="#">Graduate Education</a></td> <td><a href="#">Public Outreach</a></td> 
+</tr>
+<tr>
+<td><a href="#">Undergraduate Education</a></td> <td><a href="#">Postdoc Education</a></td> <td><a href="#">Industrial Outreach</a></td> 
+</tr>
+<tr>
+<td></td> <td></td> <td></td> 
+</tr>
+<tr><td colspan="3"><hr></td></tr>
+<tr>
+<td><a href="#">Thrust Group 1</a></td> <td><a href="#">Thrust Group 2</a></td> <td><a href="#">Thrust Group 3</a></td> 
+</tr>
+<tr>
+<td></td> <td></td> <td></td> 
+</tr>
+</table>
+
+
+</div>
+</font>
+
+</form>
+</center>
+<p>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% import 'forms.html' as forms %}
+
+{% block content %}
+
+<h2>{{ project.title }}</h2>
+
+Tags:
+{% for t in taglist %}
+<a href='display_by_tag?tags={{ t|e }}'>{{ t }}</a> |
+{% endfor %}
+
+<p>
+
+<b>Project blurb:</b>
+<blockquote>
+<p class='blurb'>
+{{ project.blurb.strip() }}
+</p>
+</blockquote>
+
+<p>
+
+<a href='{{ project.url }}'>Web page</a>
+
+<hr>
+
+<a href='add_project?id={{ id }}'>Edit project record</a>
+
+<hr>
+
+<div align='center'>
+<a href='p?id={{ prev_id }}'>previous</a> | <a href='p?id={{ next_id }}'>next</a>
+</div>
+
+{% endblock %}
