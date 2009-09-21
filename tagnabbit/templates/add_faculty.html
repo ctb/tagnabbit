@@ -25,16 +25,19 @@ Last name: {{ forms.input('last_name', value=last_name,size=30) }}<p>
 Lab web page: {{ forms.input('url', value=url, size=30) }}<p>
 BEACON research blurb:
 <br>
-{{ forms.textarea('blurb', rows=10, cols=40, value=blurb) }}
+{{ forms.textarea('blurb', rows=10, cols=60, value=blurb) }}
 <p align='center'>
+
+<p>
+
+{{ forms.submit(submit_button_name) }}
+
 <p>
 
 Tags (comma-separated; click on tags below to add/remove):<br>
-{{ forms.textarea('tags', id='tags', rows=5, cols=40, value=taglist) }}
+{{ forms.textarea('tags', id='tags', rows=5, cols=60, value=taglist) }}
 
 <p>
-
-{{ forms.submit('add') }}
 
 <p>
 <h4>Tags:</h4>
