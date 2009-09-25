@@ -62,11 +62,13 @@ class TopDirectory(Directory):
         taglist.sort(cmp_tags)
 
         search_tab = True
+        page_title = "Search by tag"
         
         template = env.get_template('search.html')
         return render_jinja2(template, locals())
 
     def example(self):
+        page_title = "Example page"
         template = env.get_template('example.html')
         return render_jinja2(template, locals())
 
@@ -82,6 +84,7 @@ class TopDirectory(Directory):
 
         faculty_list.sort(cmp_faculty)
 
+        page_title = "Faculty listing"
         faculty_tab = True
 
         template = env.get_template('faculty.html')
@@ -99,6 +102,7 @@ class TopDirectory(Directory):
 
         project_list.sort(cmp_projects)
 
+        page_title = "Projects listing"
         projects_tab = True
 
         template = env.get_template('projects.html')
@@ -162,6 +166,7 @@ class TopDirectory(Directory):
             
             return request.response.redirect(request.get_url(1))
 
+        page_title = "Adding/editing faculty information"
         taglist = ", ".join(taglist)
         template = env.get_template('add_faculty.html')
         return render_jinja2(template, locals())
@@ -218,6 +223,7 @@ class TopDirectory(Directory):
             return request.response.redirect(request.get_url(1))
 
         taglist = ", ".join(taglist)
+        page_title = "Adding/editing project information"
         template = env.get_template('add_project.html')
         return render_jinja2(template, locals())
 
@@ -235,6 +241,7 @@ class TopDirectory(Directory):
         faculty_list.sort(cmp_faculty)
         projects_list.sort(cmp_projects)
 
+        page_title = "%s" % (",".join(taglist),)
         template = env.get_template('display_all.html')
         return render_jinja2(template, locals())
 
@@ -258,6 +265,8 @@ class TopDirectory(Directory):
 
         taglist = tags.get_tags_for_faculty(faculty)
 
+        page_title = "Faculty page: %s %s" % (faculty.first_name,
+                                              faculty.last_name,)
         template = env.get_template('single_faculty.html')
         return render_jinja2(template, locals())
 
@@ -281,6 +290,7 @@ class TopDirectory(Directory):
 
         taglist = tags.get_tags_for_project(project)
 
+        page_title = "Project page: %s" % (project.title,)
         template = env.get_template('single_project.html')
         return render_jinja2(template, locals())
 
