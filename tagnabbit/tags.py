@@ -40,6 +40,13 @@ def add_or_update_faculty(faculty):
         x.append(faculty)
         faculty_by_tags[tag] = x
 
+    dlist = []
+    for tag in faculty_by_tags:
+        if not faculty_by_tags[tag]:
+            dlist.append(tag)
+    for d in dlist:
+        del faculty_by_tags[d]
+
     # set ID & add to list, if DNE
     if faculty.id is None:
         next_id = 0
