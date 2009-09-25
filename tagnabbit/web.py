@@ -60,6 +60,8 @@ class TopDirectory(Directory):
     def _q_index(self):
         taglist = tags.get_all_tags()
         taglist.sort(cmp_tags)
+
+        search_tab = True
         
         template = env.get_template('search.html')
         return render_jinja2(template, locals())
@@ -80,6 +82,8 @@ class TopDirectory(Directory):
 
         faculty_list.sort(cmp_faculty)
 
+        faculty_tab = True
+
         template = env.get_template('faculty.html')
         return render_jinja2(template, locals())
 
@@ -94,6 +98,8 @@ class TopDirectory(Directory):
             project_list = tags.get_all_projects()
 
         project_list.sort(cmp_projects)
+
+        projects_tab = True
 
         template = env.get_template('projects.html')
         return render_jinja2(template, locals())

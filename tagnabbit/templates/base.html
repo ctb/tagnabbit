@@ -40,9 +40,24 @@ http://creativecommons.org/licenses/by-nc/2.5/
 <div id="navcontainer">
 
 <ul id="navlist">
+
+{% if search_tab %}
 <li id="active"><a href="./" id="current">Search</a></li>
+{% else %}
+<li><a href="./">Search</a></li>
+{% endif %}
+
+{% if faculty_tab %}
+<li id="active"><a href="faculty" id="current">Faculty</a></li>
+{% else %}
 <li><a href="faculty">Faculty</a></li>
+{% endif %}
+
+{% if projects_tab %}
+<li id="active"><a href="projects" id="current">Projects</a></li>
+{% else %}
 <li><a href="projects">Projects</a></li>
+{% endif %}
 </ul>
 </div>
 
