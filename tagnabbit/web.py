@@ -15,6 +15,17 @@ import jinja2
 
 ###
 
+def cmp_tags(a, b):
+    return cmp(a.upper(), b.upper())
+
+def cmp_faculty(a, b):
+    return cmp(a.last_name.upper(), b.last_name.upper())
+
+def cmp_projects(a, b):
+    return cmp(a.title.upper(), b.title.upper())
+
+###
+
 from . import tags, objects, db
 
 tags.load('foo.sqlite')
@@ -48,10 +59,7 @@ class TopDirectory(Directory):
 
     def _q_index(self):
         taglist = tags.get_all_tags()
-
-        def cmp_upper(a, b):
-            return cmp(a.upper(), b.upper())
-        taglist.sort(cmp_upper)
+        taglist.sort(cmp_tags)
         
         template = env.get_template('search.html')
         return render_jinja2(template, locals())
@@ -70,6 +78,8 @@ class TopDirectory(Directory):
         else:
             faculty_list = tags.get_all_faculty()
 
+        faculty_list.sort(cmp_faculty)
+
         template = env.get_template('faculty.html')
         return render_jinja2(template, locals())
 
@@ -82,6 +92,8 @@ class TopDirectory(Directory):
             project_list = tags.get_projects_by_tags(taglist)
         else:
             project_list = tags.get_all_projects()
+
+        project_list.sort(cmp_projects)
 
         template = env.get_template('projects.html')
         return render_jinja2(template, locals())
@@ -213,6 +225,9 @@ class TopDirectory(Directory):
 
         faculty_list = tags.get_faculty_by_tags(taglist)
         projects_list = tags.get_project_by_tags(taglist)
+
+        faculty_list.sort(cmp_faculty)
+        projects_list.sort(cmp_projects)
 
         template = env.get_template('display_all.html')
         return render_jinja2(template, locals())
