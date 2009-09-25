@@ -48,6 +48,10 @@ class TopDirectory(Directory):
 
     def _q_index(self):
         taglist = tags.get_all_tags()
+
+        def cmp_upper(a, b):
+            return cmp(a.upper(), b.upper())
+        taglist.sort(cmp_upper)
         
         template = env.get_template('search.html')
         return render_jinja2(template, locals())
