@@ -28,6 +28,8 @@ def load(filename):
 
 def add_or_update_faculty(faculty):
     taglist = faculty.tags
+    taglist = [ x.strip() for x in taglist ]
+    taglist = [ x for x in taglist if x ]
     
     # clean out of existing tags
     for k, v in faculty_by_tags.items():
