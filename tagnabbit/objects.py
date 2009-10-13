@@ -22,6 +22,7 @@ class Project(object):
         self.title = title
         self.blurb = blurb
         self.url = url
+        self.faculty = ""
 
         self.hashset = self.title
 

@@ -1,6 +1,7 @@
 # -*- coding: iso-8859-1 -*-
 import os.path
 from wsgiref.simple_server import WSGIServer, WSGIRequestHandler
+from quixote.server.simple_server import run as run_simple_server
 
 import pkg_resources
 pkg_resources.require('quixote >= 2.6')
@@ -134,10 +135,12 @@ class TopDirectory(Directory):
         first_name = form.get('first_name', first_name)
         if isinstance(first_name, str):
             first_name = first_name.decode('8859')
+        first_name = first_name.strip()
         
         last_name = form.get('last_name', last_name)
         if isinstance(last_name, str):
             last_name = last_name.decode('8859')
+        last_name = last_name.strip()
         
         url = form.get('url', url)
         if isinstance(url, str):
@@ -164,7 +167,7 @@ class TopDirectory(Directory):
 
             tags.add_or_update_faculty(f)
             
-            return request.response.redirect(request.get_url(1))
+            return request.response.redirect(request.get_url(1) + '/')
 
         page_title = "Adding/editing faculty information"
         taglist = ", ".join(taglist)
@@ -178,7 +181,7 @@ class TopDirectory(Directory):
         already_exists = False
         submit_button_name = 'submit new project information'
         id = form.get('id', '')
-        title = url = blurb = taglist = ''
+        title = url = blurb = taglist = facultylist = ''
 
         p = None
         if id:
@@ -192,10 +195,12 @@ class TopDirectory(Directory):
             url = p.url
             blurb = p.blurb
             taglist = ", ".join(p.tags)
+            facultylist = ", ".join(p.faculty)
         
         title = form.get('title', title)
         if isinstance(title, str):
             title = title.decode('8859')
+        title = title.strip()
         
         url = form.get('url', url)
         if isinstance(url, str):
@@ -208,21 +213,31 @@ class TopDirectory(Directory):
         taglist = form.get('tags', taglist)
         taglist = [ t.strip() for t in taglist.split(',') ]
 
+        facultylist = form.get('faculty', facultylist)
+        facultylist = [ t.strip() for t in facultylist.split(',') ]
+
         if form.get('submit') == submit_button_name and title:
             if p:
                 p.title = title
                 p.url = url
                 p.blurb = blurb
                 p.tags = taglist
+                p.faculty = facultylist
             else:
                 p = objects.Project(title, blurb, url)
                 p.tags = taglist
+                p.faculty = facultylist
 
             tags.add_or_update_project(p)
             
-            return request.response.redirect(request.get_url(1))
+            return request.response.redirect(request.get_url(1) + '/')
 
         taglist = ", ".join(taglist)
+        facultylist = ", ".join(facultylist)
+
+        all_faculty = tags.get_all_faculty()
+        all_faculty.sort(cmp_faculty)
+        
         page_title = "Adding/editing project information"
         template = env.get_template('add_project.html')
         return render_jinja2(template, locals())
@@ -289,6 +304,7 @@ class TopDirectory(Directory):
             next_id %= len(project_list)
 
         taglist = tags.get_tags_for_project(project)
+        facultylist = tags.get_faculty_for_project(project)
 
         page_title = "Project page: %s" % (project.title,)
         template = env.get_template('single_project.html')
@@ -303,13 +319,17 @@ def create_publisher():
     app.publisher.is_thread_safe = True
     return app
 
-def run(port=8123):
+def run_wsgi(port=8123):
     server = WSGIServer(('', port), WSGIRequestHandler)
     app = create_publisher()
     server.set_app(app)
 
     print 'serving on port', port
     server.serve_forever()
+
+
+def run(port=8123):
+    run_simple_server(create_publisher, '', port)
 
 if __name__ == '__main__':
     run()

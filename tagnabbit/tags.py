@@ -88,6 +88,22 @@ def get_tags_for_faculty(f):
             x.append(k)
     return x
 
+def get_faculty_for_project(project):
+    d = {}
+    for f in get_all_faculty():
+        name = "%s %s" % (f.first_name, f.last_name)
+        name = name.strip()
+        d[name] = f
+
+    x = []
+    for name in project.faculty:
+        if name in d:
+            x.append(d[name])
+        else:
+            print 'NO MATCH:', (name,), d.keys()
+        
+    return x
+
 def add_or_update_project(project):
     taglist = project.tags
     
@@ -145,5 +161,6 @@ def get_all_tags():
     x = list(faculty_by_tags)
     y = list(projects_by_tags)
     x.extend(y)
+    x = list(set(x))
     return x
 
