@@ -54,7 +54,9 @@ def render_jinja2(t, d):
 
 class TopDirectory(Directory):
     _q_exports = ['', 'css', 'img', 'example', 'faculty', 'add_faculty',
-                  'display_by_tag', 'f', 'p', 'projects', 'add_project']
+                  'display_by_tag', 'f', 'p', 'projects', 'add_project',
+                  'export_faculty']
+    
     css = StaticDirectory(os.path.join(templatesdir, 'css'), use_cache=True)
     img = StaticDirectory(os.path.join(templatesdir, 'img'), use_cache=True)
 
@@ -67,6 +69,31 @@ class TopDirectory(Directory):
         
         template = env.get_template('search.html')
         return render_jinja2(template, locals())
+
+    def export_faculty(self):
+        request = quixote.get_request()
+        response = request.response
+
+        response.set_content_type('text/plain')
+        faculty_list = tags.get_all_faculty()
+
+        def fix_url(u):
+            if u and u.strip() and u != 'http://None':
+                if not u.startswith('http'):
+                    u = 'http://' + u
+            else:
+                u = ''
+            return u
+
+        for f in faculty_list:
+            f.first_name = f.first_name.strip()
+            f.last_name = f.last_name.strip()
+            f.url = fix_url(f.url)
+            tags.add_or_update_faculty(f)
+
+        l = [ (f.first_name, f.last_name, fix_url(f.url)) for f in faculty_list ]
+        l = [ ",".join(x) for x in l ]
+        return "\r\n".join(l)
 
     def example(self):
         page_title = "Example page"
@@ -282,6 +309,10 @@ class TopDirectory(Directory):
 
         page_title = "Faculty page: %s %s" % (faculty.first_name,
                                               faculty.last_name,)
+
+        if faculty.url and not faculty.url.startswith('http:'):
+            faculty.url = 'http://' + faculty.url
+            
         template = env.get_template('single_faculty.html')
         return render_jinja2(template, locals())
 
