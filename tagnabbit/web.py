@@ -61,20 +61,12 @@ class TopDirectory(Directory):
     img = StaticDirectory(os.path.join(templatesdir, 'img'), use_cache=True)
 
     def _q_index(self):
-        taglist = tags.get_all_tags()
-        taglist.sort(cmp_tags)
-
-        search_tab = True
-        page_title = "Search by tag"
-        
-        template = env.get_template('index.html')
-        return render_jinja2(template, locals())
-
-    def search(self):
         request = quixote.get_request()
         form = request.form
 
         hits = []
+        hit_result = ""
+        
         if 'q' in form:
             q = form['q']
             hits = search.search(unicode(q))
@@ -84,7 +76,7 @@ class TopDirectory(Directory):
                 str_id = hit['id']
                 if hit['record_type'] == 'faculty':
                     obj = db.faculty_db[str_id]
-                    name = "%s %s" % (obj.first_name, obj.last_name)
+                    name = "Dr. %s %s" % (obj.first_name, obj.last_name)
                     url = '/f?id=%s' % str_id
                 elif hit['record_type'] == 'project':
                     obj = db.projects_db[str_id]
@@ -98,8 +90,16 @@ class TopDirectory(Directory):
 
             hits = resolved_hits
 
+            hit_result = "%d matches in project and faculty blurbs" % len(hits)
+
             print 'DID SEARCH:', len(hits)
             
+        taglist = tags.get_all_tags()
+        taglist.sort(cmp_tags)
+
+        search_tab = True
+        page_title = "Search by tag"
+        
         template = env.get_template('search.html')
         return render_jinja2(template, locals())
 

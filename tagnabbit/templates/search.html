@@ -9,7 +9,11 @@
 {{ forms.input('q', size=30, value=q) }}
 <p>
 {{ forms.submit('search') }}
+<p>
 </form>
+{% if q %}
+{{ hit_result }}
+{% endif %}
 </center>
 
 {% if hits %}
@@ -19,6 +23,17 @@
     <li> <a <a href='{{url}}'> {{ name }}
  {% endfor %}
  </ul>
+{% else %}
+{% if not q %}
+<center>
+<b>- OR -</b><p>
+Select a tag to see faculty and projects with that tag.
+<p>
+{% for tag in taglist %}
+<a href='display_by_tag?tags={{ tag|e }}'>{{ tag }}</a> |
+{% endfor %}
+</center>
+{% endif %}
 {% endif %}
 <p>
 {% endblock %}
