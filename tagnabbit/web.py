@@ -27,7 +27,7 @@ def cmp_projects(a, b):
 
 ###
 
-from . import tags, objects, db
+from . import tags, objects, db, search
 
 tags.load('foo.sqlite')
 
@@ -55,7 +55,7 @@ def render_jinja2(t, d):
 class TopDirectory(Directory):
     _q_exports = ['', 'css', 'img', 'example', 'faculty', 'add_faculty',
                   'display_by_tag', 'f', 'p', 'projects', 'add_project',
-                  'export_faculty']
+                  'export_faculty', 'search']
     
     css = StaticDirectory(os.path.join(templatesdir, 'css'), use_cache=True)
     img = StaticDirectory(os.path.join(templatesdir, 'img'), use_cache=True)
@@ -67,6 +67,39 @@ class TopDirectory(Directory):
         search_tab = True
         page_title = "Search by tag"
         
+        template = env.get_template('index.html')
+        return render_jinja2(template, locals())
+
+    def search(self):
+        request = quixote.get_request()
+        form = request.form
+
+        hits = []
+        if 'q' in form:
+            q = form['q']
+            hits = search.search(unicode(q))
+
+            resolved_hits = []
+            for hit in hits:
+                str_id = hit['id']
+                if hit['record_type'] == 'faculty':
+                    obj = db.faculty_db[str_id]
+                    name = "%s %s" % (obj.first_name, obj.last_name)
+                    url = '/f?id=%s' % str_id
+                elif hit['record_type'] == 'project':
+                    obj = db.projects_db[str_id]
+                    name = obj.title
+                    url = '/p?id=%s' % str_id
+                else:
+                    url = None
+                    name = None
+                    obj = None
+                resolved_hits.append((url, name, obj))
+
+            hits = resolved_hits
+
+            print 'DID SEARCH:', len(hits)
+            
         template = env.get_template('search.html')
         return render_jinja2(template, locals())
 

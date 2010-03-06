@@ -120,12 +120,19 @@ class SQLhash(object, DictMixin):
 
     def close(self):
         if self.conn is not None:
-            self.conn.commit()
-            self.conn.close()
+            try:
+                self.conn.commit()
+                self.conn.close()
+            except sqlite3.ProgrammingError:
+                pass
+            
             self.conn = None
 
     def __del__(self):
-        self.close()
+        try:
+            self.close()
+        except sqlite3.ProgrammingError:
+            pass
 
 def open(file=None, *args):
     if file is not None:
