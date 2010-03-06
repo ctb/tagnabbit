@@ -3,6 +3,7 @@
 import shelve
 
 from . import dbsqlite
+from . import search
 
 conn = None
 faculty_db = None
@@ -31,7 +32,17 @@ def add_faculty(f):
     faculty_db[key] = f
     commit()
 
+    index = search.get_index()
+    writer = index.writer()
+    search.update_faculty_record(writer, f)
+    writer.commit()
+
 def add_project(p):
     key = str(p.id)
     projects_db[key] = p
     commit()
+
+    index = search.get_index()
+    writer = index.writer()
+    search.update_project_record(writer, p)
+    writer.commit()

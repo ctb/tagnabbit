@@ -8,8 +8,6 @@ from whoosh.index import create_in
 from whoosh.qparser import QueryParser
 from whoosh.filedb.filestore import FileStorage
 
-from . import db
-
 INDEXFILE='whoosh.index'
 SCHEMA = fields.Schema(id=fields.ID(stored=True, unique=True),
                        record_type=fields.TEXT(stored=True), # proj/faculty
@@ -42,6 +40,7 @@ def get_index(force_create=False):
     return ix
 
 def build_index(dbfile):
+    from . import db
     facultylist, projectlist = db.load(dbfile)
 
     ix = get_index(force_create=True)
@@ -56,23 +55,15 @@ def build_index(dbfile):
 
     writer.commit()
 
-def update_faculty_record(writer, f, new_record=False):
-    fn = writer.update_document
-    if new_record:
-        fn = writer.add_document
+def update_faculty_record(writer, f):
+    writer.update_document(id=unicode(f.id), first_name=f.first_name,
+                           last_name=f.last_name, blurb=f.blurb, url=f.url,
+                           tags=u",".join(f.tags), record_type=u'faculty')
 
-    fn(id=unicode(f.id), first_name=f.first_name, last_name=f.last_name,
-       blurb=f.blurb, url=f.url, tags=u",".join(f.tags),
-       record_type=u'faculty')
-
-def update_project_record(writer, p, new_record=False):
-    fn = writer.update_document
-    if new_record:
-        fn = writer.add_document
-
-    fn(id=unicode(p.id), project_title=p.title,
-       blurb=p.blurb, url=p.url, tags=u",".join(p.tags),
-       record_type=u'project')
+def update_project_record(writer, p):
+    writer.update_document(id=unicode(p.id), project_title=p.title,
+                           blurb=p.blurb, url=p.url, tags=u",".join(p.tags),
+                           record_type=u'project')
        
 def search(query):
     ix = get_index()
@@ -93,8 +84,9 @@ if __name__ == '__main__':
     build_index(dbfile)
     print 'built whoosh search index'
 
-    query = unicode(sys.argv[2])
-    hits = search(query)
-    print '%d hits for query "%s":' % (len(hits), query)
-    for h in hits:
-        print h['id']
+    if len(sys.argv) > 2:
+        query = unicode(sys.argv[2])
+        hits = search(query)
+        print '%d hits for query "%s":' % (len(hits), query)
+        for h in hits:
+            print h['id']

@@ -393,6 +393,7 @@ def run_wsgi(port=8123):
 
 
 def run(port=8123):
+    print 'serving on port', port
     run_simple_server(create_publisher, '', port)
 
 if __name__ == '__main__':
