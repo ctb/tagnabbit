@@ -387,13 +387,13 @@ def run_wsgi(port=8123):
     app = create_publisher()
     server.set_app(app)
 
-    print 'serving on port', port
+    print 'serving on %s:%d' % (interface, port,)
     server.serve_forever()
 
 
 def run(interface, port):
-    print 'serving on port', port
-    run_simple_server(create_publisher, '', port)
+    print 'serving on %s:%d' % (interface, port,)
+    run_simple_server(create_publisher, interface, port)
 
 
 if __name__ == '__main__':
