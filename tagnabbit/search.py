@@ -25,12 +25,12 @@ def get_index(force_create=False):
     location = INDEXFILE
 
     if force_create:
-        print 'removing...', location
+        print 'removing search index:', location
         if os.path.exists(location):
             shutil.rmtree(location)
 
     if not os.path.exists(location):
-        print 'creating...', location
+        print 'creating search index:', location
         os.mkdir(location)
     
         storage = FileStorage(location)

@@ -17,9 +17,9 @@ def reset():
     all_projects = {}
 
 def load(filename):
-    all_f, all_p = db.load('foo.sqlite')
+    all_f, all_p = db.load(filename)
     if (all_f or all_p):
-        print 'LOADING'
+        print 'LOADING from', filename
         for f in all_f:
             add_or_update_faculty(f, add_to_search=False)
         for p in all_p:
