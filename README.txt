@@ -28,3 +28,10 @@ to serve on port 8000, interface ''; or::
  % python2.6 -m tagnabbit.tests.run
 
 to run the tests.
+
+Other Documentation
+-------------------
+
+Whoosh query language for fulltext search:
+
+  http://packages.python.org/Whoosh/querylang.html
