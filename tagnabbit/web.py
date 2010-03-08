@@ -76,11 +76,11 @@ class TopDirectory(Directory):
                 if hit['record_type'] == 'faculty':
                     obj = db.faculty_db[str_id]
                     name = "Dr. %s %s" % (obj.first_name, obj.last_name)
-                    url = '/f?id=%s' % str_id
+                    url = './f?id=%s' % str_id
                 elif hit['record_type'] == 'project':
                     obj = db.projects_db[str_id]
                     name = obj.title
-                    url = '/p?id=%s' % str_id
+                    url = './p?id=%s' % str_id
                 else:
                     url = None
                     name = None
