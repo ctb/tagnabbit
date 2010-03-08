@@ -21,7 +21,7 @@ e.g. <i>(evo* AND NOT development) OR ecology</i>
  <h2>Search results</h2>
  <ul>
  {% for (url, name, hit) in hits %}
-    <li> <a <a href='{{url}}'> {{ name }}
+    <li> <a href='{{url}}'>{{ name }}</a>
  {% endfor %}
  </ul>
 {% else %}
