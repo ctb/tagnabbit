@@ -21,12 +21,12 @@ def load(filename):
     if (all_f or all_p):
         print 'LOADING'
         for f in all_f:
-            add_or_update_faculty(f)
+            add_or_update_faculty(f, add_to_search=False)
         for p in all_p:
-            add_or_update_project(p)
+            add_or_update_project(p, add_to_search=False)
 
 
-def add_or_update_faculty(faculty):
+def add_or_update_faculty(faculty, add_to_search=True):
     taglist = faculty.tags
     taglist = [ x.strip() for x in taglist ]
     taglist = [ x for x in taglist if x ]
@@ -60,7 +60,7 @@ def add_or_update_faculty(faculty):
     all_faculty[faculty.id] = faculty
 
     # save to DB.
-    db.add_faculty(faculty)
+    db.add_faculty(faculty, add_to_search=add_to_search)
 
 def get_faculty_by_tags(taglist):
     if not taglist:
@@ -104,7 +104,7 @@ def get_faculty_for_project(project):
         
     return x
 
-def add_or_update_project(project):
+def add_or_update_project(project, add_to_search=False):
     taglist = project.tags
     
     # clean out of existing tags
@@ -129,7 +129,7 @@ def add_or_update_project(project):
     all_projects[project.id] = project
 
     # save to DB.
-    db.add_project(project)
+    db.add_project(project, add_to_search=add_to_search)
 
 def get_project_by_tags(taglist):
     if not taglist:

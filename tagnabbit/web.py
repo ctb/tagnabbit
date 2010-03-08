@@ -1,5 +1,6 @@
 # -*- coding: iso-8859-1 -*-
 import os.path
+from optparse import OptionParser
 from wsgiref.simple_server import WSGIServer, WSGIRequestHandler
 from quixote.server.simple_server import run as run_simple_server
 
@@ -28,8 +29,6 @@ def cmp_projects(a, b):
 ###
 
 from . import tags, objects, db, search
-
-tags.load('foo.sqlite')
 
 ### set up jinja templates
 
@@ -392,9 +391,26 @@ def run_wsgi(port=8123):
     server.serve_forever()
 
 
-def run(port=8123):
+def run(interface, port):
     print 'serving on port', port
     run_simple_server(create_publisher, '', port)
 
+
 if __name__ == '__main__':
-    run()
+    import sys
+    parser = OptionParser()
+
+    parser.add_option('-i', '--interface', dest='interface',
+                      help='interface to bind', default='localhost')
+    parser.add_option('-p', '--port', dest='port', help='port to bind',
+                      type='int', default='8123')
+    
+    (options, args) = parser.parse_args()
+    dbfile=args[0]
+
+    ##
+
+    tags.load(dbfile)
+    from . import search
+    search.build_index()
+    run(options.interface, options.port)

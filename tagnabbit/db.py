@@ -27,22 +27,24 @@ def load(filename):
 def commit():
     conn.commit()
 
-def add_faculty(f):
+def add_faculty(f, add_to_search=True):
     key = str(f.id)
     faculty_db[key] = f
     commit()
 
-    index = search.get_index()
-    writer = index.writer()
-    search.update_faculty_record(writer, f)
-    writer.commit()
+    if add_to_search:
+        index = search.get_index()
+        writer = index.writer()
+        search.update_faculty_record(writer, f)
+        writer.commit()
 
-def add_project(p):
+def add_project(p, add_to_search=True):
     key = str(p.id)
     projects_db[key] = p
     commit()
 
-    index = search.get_index()
-    writer = index.writer()
-    search.update_project_record(writer, p)
-    writer.commit()
+    if add_to_search:
+        index = search.get_index()
+        writer = index.writer()
+        search.update_project_record(writer, p)
+        writer.commit()

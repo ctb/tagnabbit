@@ -8,7 +8,8 @@
 <form>
 {{ forms.input('q', size=30, value=q) }}
 <p>
-{{ forms.submit('search') }}
+{{ forms.submit('search') }}<br>
+e.g. <i>(evo* AND NOT development) OR ecology</i>
 <p>
 </form>
 {% if q %}
